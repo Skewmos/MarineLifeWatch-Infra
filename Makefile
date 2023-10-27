@@ -3,7 +3,6 @@ DOCKER = docker
 DOCKER_COMPOSE = docker compose
 EXEC = $(DOCKER_COMPOSE) exec app
 COMPOSER = $(EXEC) composer
-NPM = $(EXEC) npm
 SYMFONY_CONSOLE = $(EXEC) bin/console
 
 # Colors
@@ -14,7 +13,7 @@ RED = /bin/echo  "\x1b[31m\#\# $1\x1b[0m"
 init: ## Init the project
 	$(MAKE) start
 	$(MAKE) composer-install
-	$(MAKE) npm-install
+	$(MAKE) database-migrate
 	@$(call GREEN,"The application is available at: localhost:8102")
 
 cache-clear: ## Clear cache
@@ -42,16 +41,6 @@ composer-install: ## Install dependencies
 
 composer-update: ## Update dependencies
 	$(COMPOSER) update
-
-## —— 🐈 NPM —————————————————————————————————————————————————————————————————
-npm-install: ## Install all npm dependencies
-	$(NPM) install
-
-npm-update: ## Update all npm dependencies
-	$(NPM) update
-
-npm-watch: ## Update all npm dependencies
-	$(NPM) run watch
 
 ## —— 📊 Database ——
 database-init: ## Init database
